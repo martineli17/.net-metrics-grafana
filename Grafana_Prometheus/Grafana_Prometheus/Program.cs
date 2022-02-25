@@ -47,7 +47,7 @@ app.Use(async (context, next) =>
     catch (Exception ex)
     {
         context.Response.StatusCode = 500;
-        exceptions.WithLabels(method, path, ex.InnerException?.Message ?? "").Inc();
+        exceptions.WithLabels(method, path, ex.Message, ex.InnerException?.Message ?? "").Inc();
     }
     counter.WithLabels(method, path, context.Response.StatusCode.ToString()).Inc(); 
 });
