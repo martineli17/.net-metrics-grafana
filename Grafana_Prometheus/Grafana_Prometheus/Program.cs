@@ -43,13 +43,13 @@ app.Use(async (context, next) =>
         {
             await next.Invoke();
         }
+        counter.WithLabels(method, path, context.Response.StatusCode.ToString()).Inc();
     }
     catch (Exception ex)
     {
         context.Response.StatusCode = 500;
         exceptions.WithLabels(method, path, ex.Message, ex.InnerException?.Message ?? "").Inc();
     }
-    counter.WithLabels(method, path, context.Response.StatusCode.ToString()).Inc(); 
 });
 
 app.UseMetricServer();
